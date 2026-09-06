@@ -18,59 +18,41 @@ The project features a **hybrid risk engine** that falls back on rule-based look
 
 ## ✨ Key Features
 
-- **Hybrid Risk Engine:** Combines a deterministic rule-based baseline with a probabilistic Random Forest classifier.
-- **Patient-Context Aware:** Incorporates synthetic patient context (Age, Creatinine Clearance, AST) into the risk calculation.
-- **Explainable AI (XAI):** Integrated SHAP visualizations to break down exactly which features influenced the model's confidence.
-- **Interactive UI:** Built-in Streamlit dashboard for real-time interaction screening.
-- **Verifiable Dataset:** Includes a data generation pipeline grounded in established clinical interactions (e.g., Warfarin + Aspirin, Simvastatin + Clarithromycin).
+- **Hybrid Risk Engine:** Combines a deterministic rule-based baseline with a probabilistic Logistic Regression classifier running entirely in the browser.
+- **Patient-Context Aware:** Incorporates patient context (Age, Creatinine Clearance, AST) into the risk calculation.
+- **Explainable AI (XAI):** Integrated SHAP-equivalent visualizations compute local feature contributions dynamically in JavaScript.
+- **Serverless Architecture:** 100% static frontend (HTML/CSS/JS) designed to run freely and securely on GitHub Pages with zero backend required.
+- **Premium UI/UX:** Clean, responsive design built with Tailwind CSS, FontAwesome, and smooth CSS animations.
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 1. View Live Demo
 
-Ensure you have Python 3.8+ installed on your system.
+The application is deployed live on GitHub Pages! You can interact with the risk engine directly:
+👉 **[View Live Demo](https://pratham-shah-17.github.io/MedGuard-AI/docs/)** *(or the root URL depending on Pages config)*
 
-### 1. Installation
+### 2. Local Development (Data Pipeline)
 
-Clone the repository and install the required dependencies:
+If you wish to modify the underlying data or retrain the model, you can run the Python pipeline locally.
+Ensure you have Python 3.8+ installed.
 
 ```bash
-git clone https://github.com/yourusername/MedGuard-AI.git
+git clone https://github.com/pratham-shah-17/MedGuard-AI.git
 cd MedGuard-AI
 pip install -r requirements.txt
-```
 
-### 2. Generate the Dataset
-
-Before running the application, generate the synthetic training data:
-
-```bash
+# Generate the synthetic verifiable dataset
 python data/generate_dataset.py
+
+# Train the ML model and export it to JavaScript (docs/model_data.js)
+python export_model_to_js.py
 ```
 
-### 3. Run the Dashboard
+### 3. Local Development (Frontend)
 
-Launch the interactive Streamlit application:
-
-```bash
-streamlit run app/streamlit_app.py
-```
-
-Navigate to `http://localhost:8501` in your browser to use the tool.
-
-### 4. Run Experiments & Tests
-
-Evaluate the model's performance and run the automated test suite:
-
-```bash
-# Run the evaluation experiments
-python experiments/run_experiments.py
-
-# Run the test suite
-python -m pytest tests/test_core.py
-```
+To modify the frontend, simply open `docs/index.html` in your web browser. No local server is required!
 
 ---
 
@@ -78,22 +60,19 @@ python -m pytest tests/test_core.py
 
 ```
 MedGuard-AI/
-├── app/
-│   └── streamlit_app.py        # Streamlit interactive dashboard
+├── docs/                       # STATIC GITHUB PAGES FRONTEND
+│   ├── index.html              # Main UI
+│   ├── styles.css              # Custom animations and styling
+│   ├── app.js                  # Risk engine and XAI logic
+│   └── model_data.js           # Auto-exported model weights and rules
 ├── data/
 │   └── generate_dataset.py     # Script to generate verifiable DDI data
 ├── experiments/
 │   └── run_experiments.py      # Evaluation and ablation studies
 ├── reports/
-│   └── error_analysis.md       # Model error analysis and SHAP outputs
-├── src/
-│   ├── preprocessing.py        # Data loading and normalization
-│   ├── features.py             # Feature engineering
-│   ├── models.py               # ML models and rule-based baselines
-│   ├── explain.py              # SHAP explainability integration
-│   └── risk_engine.py          # Hybrid risk calculation logic
-├── tests/
-│   └── test_core.py            # Unit tests
+│   └── error_analysis.md       # Model error analysis outputs
+├── src/                        # Python backend logic
+├── export_model_to_js.py       # Bridges Python ML to JS frontend
 ├── DATA_SOURCES.md             # Dataset documentation
 ├── DISCLAIMER.md               # Medical disclaimer
 └── requirements.txt            # Python dependencies

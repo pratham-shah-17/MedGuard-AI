@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedGuard-AI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-inter min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-shield-halved text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">MedGuard-AI</span>
+                </div>
+                <div class="flex items-center">
+                    <a href="https://github.com/pratham-shah-17/MedGuard-AI" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Disclaimer Banner -->
+    <div class="bg-amber-50 border-b border-amber-200 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-start sm:items-center space-x-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1 sm:mt-0"></i>
+            <p class="text-sm text-amber-800">
+                <strong class="font-semibold">Educational & Open-Source Tool — Not for Clinical Use.</strong> 
+                This system should never be used to make clinical decisions. Always consult a qualified healthcare provider.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex flex-col lg:flex-row gap-8">
+        
+        <!-- Input Panel -->
+        <div class="w-full lg:w-1/3 space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 fade-in-up">
+                <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fa-solid fa-pills mr-2 text-blue-500"></i> Medications
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Drug 1</label>
+                        <input type="text" id="drug1" value="Warfarin" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Drug 2</label>
+                        <input type="text" id="drug2" value="Aspirin" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all shadow-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 fade-in-up" style="animation-delay: 0.1s;">
+                <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fa-solid fa-user-doctor mr-2 text-blue-500"></i> Patient Context
+                </h2>
+                <div class="space-y-5">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="text-sm font-medium text-gray-700">Age</label>
+                            <span id="age-val" class="text-sm text-gray-500">65</span>
+                        </div>
+                        <input type="range" id="age" min="18" max="100" value="65" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="text-sm font-medium text-gray-700">Renal Function (CrCl mL/min)</label>
+                            <span id="crcl-val" class="text-sm text-gray-500">90</span>
+                        </div>
+                        <input type="range" id="crcl" min="10" max="150" value="90" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="text-sm font-medium text-gray-700">Liver Function (AST U/L)</label>
+                            <span id="ast-val" class="text-sm text-gray-500">25</span>
+                        </div>
+                        <input type="range" id="ast" min="5" max="200" value="25" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    </div>
+                </div>
+            </div>
+
+            <button id="analyze-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transform transition-all active:scale-95 flex justify-center items-center gap-2 fade-in-up" style="animation-delay: 0.2s;">
+                <i class="fa-solid fa-bolt"></i> Analyze Risk
+            </button>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="w-full lg:w-2/3 flex flex-col gap-6">
+            <!-- Blank State -->
+            <div id="blank-state" class="h-full bg-white rounded-2xl shadow-sm border border-gray-100 p-10 flex flex-col items-center justify-center text-center fade-in text-gray-400">
+                <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-stethoscope text-4xl text-gray-300"></i>
+                </div>
+                <h3 class="text-xl font-medium text-gray-600 mb-2">Ready to Analyze</h3>
+                <p class="max-w-md">Enter two medications and adjust patient context, then click "Analyze Risk" to see the prediction and XAI breakdown.</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-state" class="hidden h-full bg-white rounded-2xl shadow-sm border border-gray-100 p-10 flex flex-col items-center justify-center text-center">
+                <div class="loader mb-4"></div>
+                <p class="text-gray-500 font-medium">Running MedGuard-AI Engine...</p>
+            </div>
+
+            <!-- Results Data -->
+            <div id="results-state" class="hidden space-y-6">
+                <!-- Top Risk Alert -->
+                <div id="risk-alert" class="rounded-2xl p-6 border shadow-sm transition-all flex items-start gap-4 slide-in-right">
+                    <div id="risk-icon" class="text-3xl mt-1"></div>
+                    <div>
+                        <h2 id="risk-title" class="text-xl font-bold mb-1"></h2>
+                        <p id="risk-desc" class="text-sm opacity-90 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Known Interaction Details (If applicable) -->
+                <div id="known-details" class="hidden bg-blue-50 border border-blue-100 rounded-2xl p-6 slide-in-right" style="animation-delay: 0.1s;">
+                    <h3 class="font-semibold text-blue-900 mb-2 flex items-center"><i class="fa-solid fa-book-medical mr-2"></i> Known Interaction Database</h3>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li><span class="font-medium">Type:</span> <span id="k-type"></span></li>
+                        <li><span class="font-medium">Severity:</span> <span id="k-severity"></span>/3</li>
+                        <li><span class="font-medium">Source:</span> <span id="k-source"></span></li>
+                    </ul>
+                </div>
+
+                <!-- XAI Section -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 slide-in-right" style="animation-delay: 0.2s;">
+                    <div class="flex justify-between items-end mb-6">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                                <i class="fa-solid fa-chart-simple mr-2 text-purple-500"></i> Explainable AI (XAI)
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-1">Feature contributions to the model's risk log-odds</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">ML Probability</p>
+                            <p id="ml-prob-text" class="text-2xl font-bold text-gray-900"></p>
+                        </div>
+                    </div>
+                    
+                    <div id="xai-chart" class="space-y-4">
+                        <!-- Chart bars injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="model_data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
