@@ -31,7 +31,7 @@ The project features a **hybrid risk engine** that falls back on rule-based look
 ### 1. View Live Demo
 
 The application is deployed live on GitHub Pages! You can interact with the risk engine directly:
-👉 **[View Live Demo](https://pratham-shah-17.github.io/MedGuard-AI/docs/)** *(or the root URL depending on Pages config)*
+👉 **[View Live Demo](https://pratham-shah-17.github.io/MedGuard-AI/)**
 
 ### 2. Local Development (Data Pipeline)
 
